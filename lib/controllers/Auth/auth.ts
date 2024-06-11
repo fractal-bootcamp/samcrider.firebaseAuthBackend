@@ -23,7 +23,11 @@ authRouter.post("/hydrate", async (req, res) => {
 });
 
 authRouter.post("/login", async (req, res) => {
-  // login app user
+  // user was found in db in requireAuth middleware
+  //get user out of req
+  console.log("right before found user", req);
+  const foundUser: UserOutputDto = req.user;
+  res.status(200).send(foundUser);
 });
 
 authRouter.post("/signup", async (req, res) => {

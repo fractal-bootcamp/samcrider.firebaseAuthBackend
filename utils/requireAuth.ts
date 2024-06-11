@@ -32,7 +32,7 @@ export const requireAuth = async (
         firebaseId: firebaseUser.uid,
       },
     });
-    // if user not in db, they need added
+    // if user not in db but they are in firebase, they need added to db
     // this isn't properly type narrowing dbUser! TODO: fix
     if (!dbUser) {
       const newDbUser = await prisma.user.create({
@@ -47,7 +47,7 @@ export const requireAuth = async (
       return next();
     }
     // if user in db, set req["user"] = db user
-    req["user"] = { id: dbUser?.id, email: dbUser?.email };
+    req["user"] = { id: dbUser.id, email: dbUser.email };
 
     next();
   } catch (e) {
